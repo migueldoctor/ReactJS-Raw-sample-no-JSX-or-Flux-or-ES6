@@ -6,13 +6,25 @@
   </head>
   <body>
     
-    <!-- This is the DIV where the react app will be rendered -->
+    <!-- 1) This is the DIV where the react app will be rendered -->
     <div id="react-app">
 
     </div>
 
-    <!-- here these two lines import the react.js and react-dom.js libraries -->
+    <!-- 2) here these two lines import the react.js and react-dom.js libraries -->
     <script src="https://cdn.jsdelivr.net/react/15.5.4/react.js"></script>
     <script src="https://cdn.jsdelivr.net/react/15.5.4/react-dom.js"></script>
+    
+    
+    <!-- 3) Now we create the content using plain JS and React library -->
+    <!-- The method createElement of React object has the following signature :
+    React.createElement(component, props, ...children) -->
+    <script>
+      var rootElement = React.createElement('div',{},
+        React.createElement('h1',{},"Contacts")
+      );
+
+      ReactDOM.render(rootElement, document.getElementById('react-app'));
+    </script>
   </body>
 </html>
