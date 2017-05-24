@@ -22,3 +22,39 @@ Commit [4](https://github.com/migueldoctor/ReactJS-Raw-sample-no-JSX-or-Flux-or-
 ```javascript
   React.createElement('a', {href: 'mailto:james@jamesknelson.com'}, 'james@jamesknelson.com')
 ```
+
+### 3. Using Javascript functions (map, filter) and instructions to create custom html content using React.createElement()
+Since React.createElement is just plain javascript, you can use it in loops, if statements or any other feature provided by javascript language.
+
+In commit [7](https://github.com/migueldoctor/ReactJS-Raw-sample-no-JSX-or-Flux-or-ES6-/commit/268b256ab3644618278ad7ef105a2805c35d77ec) you can see how to create a list in html with an array of contacts, applying map and filter javascript functions over it and returning and React element.
+
+We can store the data into an array
+```javascript
+var contacts = [
+            {key: 1, name: "James Nelson", email: "james@jamesknelson.com"},
+            {key: 2, name: "Bob"},
+            {key: 3, name: "Miguel", email:"mikydoc_sev@hotmail.com"}
+      ]
+ ```
+ 
+Apply javascript functions over it (like map and filter...) and return a react element
+```javascript
+var getEmailFromContact = function(contact) { return contact.email; }
+var listElements = contacts.filter(getEmailFromContact)
+                                 .map(function(contact) {
+                                          return React.createElement('li', {key: contact.key},
+                                                      React.createElement('h2', {}, contact.name),
+                                                      React.createElement('a', {href: 'mailto:'+contact.email}, contact.email))
+                                                      
+                        });
+```
+
+Then we can use that into our root React.createElement function
+
+```javascript
+var rootElement = React.createElement('div',{},
+        React.createElement('h1',{},"Contacts"),
+         React.createElement('ul', {}, listElements) 
+                 );
+ ReactDOM.render(rootElement, document.getElementById('react-app'));
+  ```
