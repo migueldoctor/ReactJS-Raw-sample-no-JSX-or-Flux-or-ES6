@@ -58,3 +58,23 @@ var rootElement = React.createElement('div',{},
                  );
  ReactDOM.render(rootElement, document.getElementById('react-app'));
   ```
+### 4.  Moving js code from the html file to an external js file (main.js) 
+In commit [10](https://github.com/migueldoctor/ReactJS-Raw-sample-no-JSX-or-Flux-or-ES6-/commit/a4e20ad2e9acc297cf8bb14489ea4fbbf05fdcd2) we have refactored the source code in order to separate the JS code and the html code. In consequence we have created a new file called main.js and place on it all js code we previously had within a script tag in the index.html file.
+
+Once removed the js code from the html file, we have to reference it AFTER the div block where the react code will be rendered
+
+```javascript
+ <body>
+    <!-- 1) This is the DIV where the react app will be rendered -->
+    <div id="react-app">
+    </div>
+    
+    <!-- 2) here these two lines import the react.js and react-dom.js libraries -->
+    <script src="https://cdn.jsdelivr.net/react/15.5.4/react.js"></script>
+    <script src="https://cdn.jsdelivr.net/react/15.5.4/react-dom.js"></script>
+    
+    <!-- 3) here the file main.js with the reactjs code will be executed  -->
+    <script src="main.js"></script>
+
+  </body>
+```
