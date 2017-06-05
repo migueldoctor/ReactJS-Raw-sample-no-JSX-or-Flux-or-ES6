@@ -78,3 +78,46 @@ Once removed the js code from the html file, we have to reference it AFTER the d
 
   </body>
 ```
+
+### 5.  Using React.createClass() to create your own components
+So far we are using react just to create HTML components by making use of Javascript. But the real power of React comes with the posibility of create your own components so you can use it as regular HTML components on your reactjs source files. Reactjs defines new components by invoking the method React.createClass(). When using this method you have to define the following properties:
+
+1. propTypes: (This is optional but recommendable for testing purposes) Here you can define the attributes of your new component (just like the href attribute of the a HTML component)
+2. render: This is mandatory and it is a function returing what needs to be rendered when this component is used on a reactjs program.
+
+Let's see an example of using React.createClass method:
+
+```javascript
+// Custom components must start with upper letter
+var SampleItem = React.createClass({
+        propTypes: {
+                //This attributes will be available from render function under this.props.name and this.props.email
+                name: React.PropTypes.string.isRequired,
+                email: React.PropTypes.string, //This one is not mandatory
+        },
+        
+        render: function() {
+                return (
+                        React.createElement('li', {},
+                                React.createElement('h2', {}, this.props.name),
+                                React.createElement('a', {href: 'mailto:'+this.props.email}, this.props.email)
+                                )
+                    )
+        }
+});
+```
+
+Once created you can use it with React.createElement() method as you would do with any other standard HTML component. ONLY ONE DIFERENCE: when invoking createElement() method the the name of your component has no quotes (')
+
+```javascript
+
+var rootElement = React.createElement(SampleItem, 
+                            {
+                            name:'Miguel Doctor',
+                            email:'fakeemail@mail.com'
+                            }
+                        );
+                        
+//var rootElement = React.createElement(SampleItem, {name:'Miguel Doctor'});
+ReactDOM.render(rootElement, document.getElementById('react-app'))
+```
