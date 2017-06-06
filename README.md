@@ -121,3 +121,52 @@ var rootElement = React.createElement(SampleItem,
 //var rootElement = React.createElement(SampleItem, {name:'Miguel Doctor'});
 ReactDOM.render(rootElement, document.getElementById('react-app'))
 ```
+
+### 6.  Refactor your code by Creating a ContactItem component with React.createClass() 
+In the previous section we described how to use createClass method to create your component. Now In commit [13](https://github.com/migueldoctor/ReactJS-Raw-sample-no-JSX-or-Flux-or-ES6-/commit/8e1e619f98381bfd7403c5dd4201ef7f6861176b) we can see how to apply that to our example.
+
+1. We update the contacts array by adding description field to some of the stored objects.
+
+```javascript
+var contacts = [
+    {key: 1, name: "Fake user", email: "fakeemail@mail.com", description: "This is a fake user to make the sample"},
+    {key: 2, name: "Bob", description:"Bob is a great user but without email, so he will be filtered out"},
+    {key: 3, name: "Miguel", email:"MiguelfakeEmail@mail.com"}
+    ]
+```
+
+2. We create the component ContactItem by useing React.createClass method
+
+```javascript
+//2) We create the React Component ContactItem
+var ContactItem = React.createClass({
+    propTypes: { // The passed argument must be an object with name, email and description fields being name mandatory
+        name: React.PropTypes.string.isRequired,
+        email: React.PropTypes.string,
+        description: React.PropTypes.string,
+    },
+
+    render: function() {
+        return (
+            React.createElement('li',{}, // We create an list element and we print the name, the email and the description using several html tags
+                React.createElement('h2',{},this.props.name),
+                React.createElement('a',{href:'mailto:'+this.props.email}, this.props.email),
+                React.createElement('div',{},this.props.description)
+            )
+        );
+    }
+});
+
+```
+
+3. We invoke the component ContactItem by using React.createElement method (Remember not to use quotes ' )
+
+```javascript
+//3) Then we apply the filter and for each element in the array (contact), we return the element ContactItem just defined
+var getEmailFromContact = function(contact) { return contact.email; }
+var listElements = contacts.filter(getEmailFromContact)
+                           .map(function(contact) {
+                                          return React.createElement(ContactItem,contact); // HERE You can see that the argument of ContactItem 
+                                                                                           // must be an object with name, description and email
+                        });
+```
