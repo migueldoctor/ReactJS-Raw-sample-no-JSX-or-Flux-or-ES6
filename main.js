@@ -15,7 +15,7 @@ var ContactItem = React.createClass({
 
     render: function() {
         return (
-            React.createElement('li',{},
+            React.createElement('li',{key: this.props.key}, //Adding the key in order to improve react performance
                 React.createElement('h2',{},this.props.name),
                 React.createElement('a',{href:'mailto:'+this.props.email}, this.props.email),
                 React.createElement('div',{},this.props.description)
