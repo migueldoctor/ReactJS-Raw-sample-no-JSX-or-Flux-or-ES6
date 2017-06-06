@@ -122,7 +122,7 @@ var rootElement = React.createElement(SampleItem,
 ReactDOM.render(rootElement, document.getElementById('react-app'))
 ```
 
-### 6.  Refactor your code by Creating a ContactItem component with React.createClass() 
+### 6.  Refactor your code by Creating a ContactItem component with React.createClass()
 In the previous section we described how to use createClass method to create your component. Now In commit [13](https://github.com/migueldoctor/ReactJS-Raw-sample-no-JSX-or-Flux-or-ES6-/commit/8e1e619f98381bfd7403c5dd4201ef7f6861176b) we can see how to apply that to our example.
 
 1. We update the contacts array by adding description field to some of the stored objects.
@@ -170,3 +170,32 @@ var listElements = contacts.filter(getEmailFromContact)
                                                                                            // must be an object with name, description and email
                         });
 ```
+
+### 7.  Rendering changes in React with ReactDOM.render()
+
+React doesn't include any kind of automatically-updating views mechanism, so the developer must to indicate react when to make a re-render of the displayed data.
+In short, React makes use of a shadow DOM tree, and changes are done on that shadow DOM tree. So when we recall a ReactDOM.render(), React compares the displayed real DOM
+tree with the shadow one, and it updates ONLY the elements that have been updated. That is why react is so efficient.
+
+In order to decide what to change, React  uses a number of rules to decide what to do:
+
+  1. ReactElements with differing types are trashed and re-rendered
+  2. ReactElements with differing props or children are re-rendered in place
+  3. Identical ReactElements which have been re-ordered within an array are moved to reflect the new order
+
+When React encounters an array of ReactElements with identical type and props, despite looking identical from the outside it cannot know that they are really identical. This is because elements can have internal state – for example, whether the element currently has user focus. This becomes a problem when React goes to re-render those elements, as it cannot tell one from another – and thus doesn’t know if their order within the array has changed.
+
+This is where the key property from the earlier examples comes in. It lets React distinguish between elements, and keep the DOM aligned with our ReactElement tree.
+
+In commit [15] (https://github.com/migueldoctor/ReactJS-Raw-sample-no-JSX-or-Flux-or-ES6-/commit/8a3fc31a3870314241b8d35fe27298fdbc1a1956) we add the key property to the li element returned by our custom react component
+
+```javascript
+render: function() {
+        return (
+            React.createElement('li',{key: this.props.key}, //Adding the key in order to improve react performance
+                React.createElement('h2',{},this.props.name),
+                React.createElement('a',{href:'mailto:'+this.props.email}, this.props.email),
+                React.createElement('div',{},this.props.description)
+            )
+```
+
