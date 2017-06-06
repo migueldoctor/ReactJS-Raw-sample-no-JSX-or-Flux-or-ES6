@@ -185,17 +185,4 @@ In order to decide what to change, React  uses a number of rules to decide what 
 
 When React encounters an array of ReactElements with identical type and props, despite looking identical from the outside it cannot know that they are really identical. This is because elements can have internal state – for example, whether the element currently has user focus. This becomes a problem when React goes to re-render those elements, as it cannot tell one from another – and thus doesn’t know if their order within the array has changed.
 
-This is where the key property from the earlier examples comes in. It lets React distinguish between elements, and keep the DOM aligned with our ReactElement tree.
-
-In commit [15](https://github.com/migueldoctor/ReactJS-Raw-sample-no-JSX-or-Flux-or-ES6-/commit/8a3fc31a3870314241b8d35fe27298fdbc1a1956) we add the key property to the li element returned by our custom react component.
-
-```javascript
-render: function() {
-        return (
-            React.createElement('li',{key: this.props.key}, //Adding the key in order to improve react performance
-                React.createElement('h2',{},this.props.name),
-                React.createElement('a',{href:'mailto:'+this.props.email}, this.props.email),
-                React.createElement('div',{},this.props.description)
-            )
-```
-
+This is where the key property from the earlier examples comes in. It lets React distinguish between elements, and keep the DOM aligned with our ReactElement tree. You don't need to indicate this key property in your component React, you just need to add it as field in the array object.
