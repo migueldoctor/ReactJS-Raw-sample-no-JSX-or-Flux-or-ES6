@@ -10,7 +10,7 @@ var ContactItem = React.createClass({
     propTypes: {
         name: React.PropTypes.string.isRequired,
         email: React.PropTypes.string,
-        description: React.PropTypes.string,
+        description: React.PropTypes.string
     },
 
     render: function() {
@@ -18,7 +18,7 @@ var ContactItem = React.createClass({
             React.createElement('li',{}, //Adding the key in order to improve react performance
                 React.createElement('h2',{},this.props.name),
                 React.createElement('a',{href:'mailto:'+this.props.email}, this.props.email),
-                React.createElement('div',{},this.props.description),
+                React.createElement('div',{},this.props.description)
             )
         );
     }

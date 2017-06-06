@@ -193,3 +193,55 @@ In addition to value, input elements take the props you’d expect them to. With
 
    1. React textarea elements take their content as a value prop, not as children
    2. The HTML for attribute is bound to the __*htmlFor*__ prop (as for is a reserved word in JavaScript)
+
+In commit [22](https://github.com/migueldoctor/ReactJS-Raw-sample-no-JSX-or-Flux-or-ES6-/commit/521b0d259d7e5c7c133b4f7269588dbcc6c4694e) we have implemented the form to add contacts to our react app following the 3 steps indicated below:
+  
+   1. Creation of the component ContactForm by using React.createClass()
+   
+   ```javascript
+        // 1) Here we create the ContactForm react component which will receive a contact object as passed prop argument
+        var ContactForm = React.createClass({
+        propTypes: {
+                contact: React.PropTypes.object.isRequired
+        },
+
+        render: function(){
+                return ( 
+                   React.createElement('form', {},
+                        React.createElement('input',{
+                                type:'text',
+                                placeholder: 'Name (required)',
+                                value: this.props.contact.name
+                        }),
+                        React.createElement('input',{
+                                type:'text',
+                                placeholder: 'Email (optional)',
+                                value: this.props.contact.email
+                        }),
+                        React.createElement('textarea',{
+                                placeholder: 'Description (optional)',
+                                value: this.props.contact.description
+                        }),
+                        React.createElement('button', {type: 'submit'}, "Add Contact")
+                    )
+              )
+        }
+        });
+   ```
+   
+   2. Initialize a var containing an empty contact object
+   ```javascript
+        //2) Then we create a new empty contact object
+        var newContact = {name: "", email: "", description: ""}
+   ```
+
+   3. Added the component ContactForm to our rootElement
+   ```javascript
+
+        //3) Finally we add the ContactForm component to our rootElement component
+        var rootElement = React.createElement('div',{},
+                                    React.createElement('h1',{},"Contacts"),
+                                                React.createElement('ul', {}, listElements),
+                                                React.createElement(ContactForm, {contact:newContact})
+                                    );
+ ```
