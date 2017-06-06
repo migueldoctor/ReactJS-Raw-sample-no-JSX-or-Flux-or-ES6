@@ -1,24 +1,37 @@
-//  Since React.createElement is just plain javascript, you can use it in loops,
-//  if statements or any other feature provided by javascript
-
-//  Let us create an array JSON objects with users and optional emails
+//  1) Let us create an array JSON objects with users and optional emails and descriptions
 var contacts = [
-    {key: 1, name: "James Nelson", email: "james@jamesknelson.com"},
-    {key: 2, name: "Bob"},
-    {key: 3, name: "Miguel", email:"mikydoc_sev@hotmail.com"}
+    {key: 1, name: "Fake user", email: "fakeemail@mail.com", description: "This is a fake user to make the sample"},
+    {key: 2, name: "Bob", description:"Bob is a great user but without email, so he will be filtered out"},
+    {key: 3, name: "Miguel", email:"MiguelfakeEmail@mail.com"}
     ]
 
-//  Now let's filter the array by choosing the ones with email
+//2) We create the React Component ContactItem
+var ContactItem = React.createClass({
+    propTypes: {
+        name: React.PropTypes.string.isRequired,
+        email: React.PropTypes.string,
+        description: React.PropTypes.string,
+    },
+
+    render: function() {
+        return (
+            React.createElement('li',{},
+                React.createElement('h2',{},this.props.name),
+                React.createElement('a',{href:'mailto:'+this.props.email}, this.props.email),
+                React.createElement('div',{},this.props.description)
+            )
+        );
+    }
+});
+
+
+
+
+//3) Then we apply the filter and for each element in the array (contact), we return the element ContactItem just defined
 var getEmailFromContact = function(contact) { return contact.email; }
-        
-//filter function applies a condition and return the elements of the array that returns not null
-//map function applies the passed function to all elements of the array. In this case we 
-//return the html created with React.createElements()
 var listElements = contacts.filter(getEmailFromContact)
                            .map(function(contact) {
-                                          return React.createElement('li', {key: contact.key},
-                                                      React.createElement('h2', {}, contact.name),
-                                                      React.createElement('a', {href: 'mailto:'+contact.email}, contact.email))
+                                          return React.createElement(ContactItem,contact); // HERE YOY CAN SEE THAT THE PARAMETER OF ContactItem must be an object with name, description and email
                         });
 
 
