@@ -185,4 +185,13 @@ In order to decide what to change, React  uses a number of rules to decide what 
 
 When React encounters an array of ReactElements with identical type and props, despite looking identical from the outside it cannot know that they are really identical. This is because elements can have internal state – for example, whether the element currently has user focus. This becomes a problem when React goes to re-render those elements, as it cannot tell one from another – and thus doesn’t know if their order within the array has changed.
 
+<<<<<<< HEAD
 This is where the key property from the earlier examples comes in. It lets React distinguish between elements, and keep the DOM aligned with our ReactElement tree. You don't need to indicate this key property in your component React, you just need to add it as field in the array object.
+
+### 8.  Forms in React
+In React, input elements are not complicated at all. The _value_ is taken as a prop, and this is what will be displayed. It's very important to mention that since *the component can’t directly change the props* (as the values passed in from the outside world) user input won’t cause any change in the displayed value. Therefore you will need to set up events handlers in order to process the user inputs and modify your UI accordingly.
+In addition to value, input elements take the props you’d expect them to. With a few minor exceptions, the attributes you can pass to a HTML \<input> are also available as props. There are two exceptions worth keeping in mind:
+
+   1. React textarea elements take their content as a value prop, not as children
+   2. The HTML for attribute is bound to the __*htmlFor*__ prop (as for is a reserved word in JavaScript)
+>>>>>>> origin/master
