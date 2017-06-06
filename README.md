@@ -187,7 +187,7 @@ When React encounters an array of ReactElements with identical type and props, d
 
 This is where the key property from the earlier examples comes in. It lets React distinguish between elements, and keep the DOM aligned with our ReactElement tree.
 
-In commit [15] (https://github.com/migueldoctor/ReactJS-Raw-sample-no-JSX-or-Flux-or-ES6-/commit/8a3fc31a3870314241b8d35fe27298fdbc1a1956) we add the key property to the li element returned by our custom react component
+In commit [15](https://github.com/migueldoctor/ReactJS-Raw-sample-no-JSX-or-Flux-or-ES6-/commit/8a3fc31a3870314241b8d35fe27298fdbc1a1956) we add the key property to the li element returned by our custom react component.
 
 ```javascript
 render: function() {
