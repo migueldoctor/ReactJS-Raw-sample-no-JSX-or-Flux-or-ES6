@@ -18,13 +18,47 @@ var ContactItem = React.createClass({
             React.createElement('li',{}, //Adding the key in order to improve react performance
                 React.createElement('h2',{},this.props.name),
                 React.createElement('a',{href:'mailto:'+this.props.email}, this.props.email),
-                React.createElement('div',{},this.props.description)
+                React.createElement('div',{},this.props.description),
             )
         );
     }
 });
 
-//3) Apply the filter and for each element in the array (contact), we return the element ContactItem just defined
+
+
+// 1) Here we create the ContactForm react component which will receive a contact object as passed prop argument
+var ContactForm = React.createClass({
+    propTypes: {
+        contact: React.PropTypes.object.isRequired
+    },
+
+    render: function(){
+        return ( 
+            React.createElement('form', {},
+                React.createElement('input',{
+                    type:'text',
+                    placeholder: 'Name (required)',
+                    value: this.props.contact.name
+                }),
+                React.createElement('input',{
+                    type:'text',
+                    placeholder: 'Email (optional)',
+                    value: this.props.contact.email
+                }),
+                React.createElement('textarea',{
+                    placeholder: 'Description (optional)',
+                    value: this.props.contact.description
+                }),
+                React.createElement('button', {type: 'submit'}, "Add Contact")
+            )
+        )
+    }
+});
+
+//2) Then we create a new empty contact object
+var newContact = {name: "", email: "", description: ""}
+
+// Apply the filter and for each element in the array (contact), we return the element ContactItem just defined
 var getEmailFromContact = function(contact) { return contact.email; }
 var listElements = contacts.filter(getEmailFromContact)
                            .map(function(contact) {
@@ -32,10 +66,11 @@ var listElements = contacts.filter(getEmailFromContact)
                         });
 
 
-//Now we can use the var listElements into our React.createElement
+//3) Finally we add the ContactForm component to our rootElement component
 var rootElement = React.createElement('div',{},
                                     React.createElement('h1',{},"Contacts"),
-                                                React.createElement('ul', {}, listElements) 
+                                                React.createElement('ul', {}, listElements),
+                                                React.createElement(ContactForm, {contact:newContact})
                                     );
         
 ReactDOM.render(rootElement, document.getElementById('react-app'));
