@@ -1,11 +1,20 @@
-//  Let us create an array JSON objects with users and optional emails and descriptions
+/******************************************* 
+ * DATA SECTION
+ ******************************************/
 var contacts = [
     {key: 1, name: "Fake user", email: "fakeemail@mail.com", description: "This is a fake user to make the sample"},
     {key: 2, name: "Bob", description:"Bob is a great user but without email, so he will be filtered out"},
     {key: 3, name: "Miguel", email:"MiguelfakeEmail@mail.com"}
     ]
 
-// We create the React Component ContactItem
+
+var newContact = {name: "", email: "", description: ""}
+
+/******************************************* 
+ * COMPONENTS CREATION SECTION 
+ ******************************************/
+
+// React Component ContactItem
 var ContactItem = React.createClass({
     propTypes: {
         name: React.PropTypes.string.isRequired,
@@ -15,10 +24,10 @@ var ContactItem = React.createClass({
 
     render: function() {
         return (
-            React.createElement('li',{}, //Adding the key in order to improve react performance
-                React.createElement('h2',{},this.props.name),
-                React.createElement('a',{href:'mailto:'+this.props.email}, this.props.email),
-                React.createElement('div',{},this.props.description)
+            React.createElement('li',{className: 'ContactItem'}, //Adding the key in order to improve react performance
+                React.createElement('h2',{className: 'ContactItem-name'},this.props.name),
+                React.createElement('a',{className: 'ContactItem-email', href:'mailto:'+this.props.email}, this.props.email),
+                React.createElement('div',{className: 'ContactItem-description'},this.props.description)
             )
         );
     }
@@ -26,7 +35,7 @@ var ContactItem = React.createClass({
 
 
 
-// 1) Here we create the ContactForm react component which will receive a contact object as passed prop argument
+// React Component ContactForm
 var ContactForm = React.createClass({
     propTypes: {
         contact: React.PropTypes.object.isRequired
@@ -34,7 +43,7 @@ var ContactForm = React.createClass({
 
     render: function(){
         return ( 
-            React.createElement('form', {},
+            React.createElement('form', {className: 'ContactForm'},
                 React.createElement('input',{
                     type:'text',
                     placeholder: 'Name (required)',
@@ -55,22 +64,36 @@ var ContactForm = React.createClass({
     }
 });
 
-//2) Then we create a new empty contact object
-var newContact = {name: "", email: "", description: ""}
-
-// Apply the filter and for each element in the array (contact), we return the element ContactItem just defined
-var getEmailFromContact = function(contact) { return contact.email; }
-var listElements = contacts.filter(getEmailFromContact)
-                           .map(function(contact) {
+// React Component ContactView
+var ContactView = React.createClass({
+    propTypes: {
+         contacts: React.PropTypes.array.isRequired,
+         newContact: React.PropTypes.object.isRequired,
+    },
+    render: function() {
+        // Apply the filter and for each element in the array (contact), we return the element ContactItem just defined
+        var getEmailFromContact = function(contact) { return contact.email; }
+        var listElements = contacts.filter(getEmailFromContact)
+                                   .map(function(contact) {
                                           return React.createElement(ContactItem,contact); // HERE YOY CAN SEE THAT THE PARAMETER OF ContactItem must be an object with name, description and email
-                        });
+                                    });
 
+        return (
+                React.createElement('div',{className:'ContactView'},
+                            React.createElement('h1',{className:'ContactView-title'},"Contacts"),
+                                    React.createElement('ul', {className:'ContactView-list'}, listElements),
+                                    React.createElement(ContactForm, {contact:this.props.newContact})
+                                    )
+        )
+    }
+});
 
-//3) Finally we add the ContactForm component to our rootElement component
-var rootElement = React.createElement('div',{},
-                                    React.createElement('h1',{},"Contacts"),
-                                                React.createElement('ul', {}, listElements),
-                                                React.createElement(ContactForm, {contact:newContact})
-                                    );
-        
-ReactDOM.render(rootElement, document.getElementById('react-app'));
+/******************************************* 
+ * ENTRY POINT SECTION 
+ ******************************************/
+ 
+ReactDOM.render(React.createElement(ContactView,{
+                                    contacts: contacts, 
+                                    newContact:newContact
+                                    }), 
+                                document.getElementById('react-app'));
